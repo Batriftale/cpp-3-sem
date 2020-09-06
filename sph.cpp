@@ -23,7 +23,7 @@ void moveSphere(int x, int y, int R, int N,int r, int g, int b, int vx, int vy, 
         if ((y >= 600 - R) || (y <= R)){
             vy = -vy;
         }
-        txSetColor(RGB(0,0,0));
+        txSetColor(RGB(0, 0, 0));
         txClear();
         }
 }
@@ -36,10 +36,9 @@ int r, g, b;
 double dt = 0.1;
 
 
-txCreateWindow(800,600);
+txCreateWindow(800, 600);
 
-//drawSphere(100,100,R,N,100,50,0);
-moveSphere(100,100,R,N,255, 0, 0, 10,10,dt);
+moveSphere(100, 100, R, N, 255, 0, 0, 10, 10, dt);
 
 return 0;
 }
