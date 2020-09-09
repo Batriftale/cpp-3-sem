@@ -1,7 +1,6 @@
 #include "TXLib.h"
 
 void drawSphere(int x, int y, int R, int N, int r, int g, int b){
-    int i;
     for (auto i = 0; i < N; i++){
         txSetFillColor(RGB(i * r / N, g, b));
         txSetColor(RGB(i * r / N, g, b));
@@ -9,12 +8,25 @@ void drawSphere(int x, int y, int R, int N, int r, int g, int b){
         }
 }
 
-void moveSphere(int x, int y, int R, int N,int r, int g, int b, int vx, int vy, double dt){
 
-    while (true){
+
+int main(){
+int R = 100;
+int N = 100;
+int r, g, b, x, y;
+double dt = 0.1;
+float vx,vy;
+
+
+txCreateWindow(800, 600);
+
+while (true){
+    
+        txClear();
         txBegin();
         drawSphere(x, y, R, N, r, g, b);
         txEnd();
+    
         x = x + vx * dt;
         y = y + vy * dt;
         if ((x >= 800 - R) || (x <= R)){
@@ -23,22 +35,10 @@ void moveSphere(int x, int y, int R, int N,int r, int g, int b, int vx, int vy, 
         if ((y >= 600 - R) || (y <= R)){
             vy = -vy;
         }
+    
         txSetFillColor(RGB(0, 0, 0));
-        txClear();
         }
-}
 
-
-int main(){
-int R = 100;
-int N = 100;
-int r, g, b;
-double dt = 0.1;
-
-
-txCreateWindow(800, 600);
-
-moveSphere(100, 100, R, N, 255, 0, 0, 10, 10, dt);
 
 return 0;
 }
