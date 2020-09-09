@@ -1,13 +1,16 @@
 #include "TXLib.h"
 
 void drawSphere(int x, int y, int R, int N, int r, int g, int b){
+    
     COLORREF color = txGetFillColor();
     COLORREF border = txGetColor();
+    
     for (auto i = 0; i < N; i++){
         txSetFillColor(RGB(i * r / N, g, b));
         txSetColor(RGB(i * r / N, g, b));
-        txCircle(x + R * i/(2 * N), y - R * i / (2 * N), R - R * i / N);
+        txCircle(x + R * i / (2 * N), y - R * i / (2 * N), R - R * i / N);
         }
+    
     txSetFillColor(color);
     txSetColor(border);
 }
@@ -28,7 +31,9 @@ int main(){
 
 
     txCreateWindow(800, 600);
-
+    txSetFillColor(RGB(0, 0, 0));
+    
+    
     while (true){
     
         txClear();
@@ -45,7 +50,7 @@ int main(){
             vy = -vy;
         }
     
-        //txSetFillColor(RGB(0, 0, 0));
+        
         }
 
 
