@@ -2,14 +2,14 @@
 
 void drawSphere(int x, int y, int R, int N, int r, int g, int b){
     COLORREF color = txGetFillColor();
-    COLORREF overlay = txGetColor();
+    COLORREF border = txGetColor();
     for (auto i = 0; i < N; i++){
         txSetFillColor(RGB(i * r / N, g, b));
         txSetColor(RGB(i * r / N, g, b));
         txCircle(x + R * i/(2 * N), y - R * i / (2 * N), R - R * i / N);
         }
     txSetFillColor(color);
-    txSetColor(color);
+    txSetColor(border);
 }
 
 
