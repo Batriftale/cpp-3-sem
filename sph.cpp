@@ -45,7 +45,7 @@ int main(){
             vy = -vy;
         }
     
-        txSetFillColor(RGB(0, 0, 0));
+        //txSetFillColor(RGB(0, 0, 0));
         }
 
 
