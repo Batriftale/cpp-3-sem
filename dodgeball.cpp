@@ -22,7 +22,7 @@ void moveSphere(double* currentX, double* currentY, double vx, double vy, double
 
 void controlSphere(double currentX, double currentY, double* vx, double* vy){
 
-    while (txMouseButtons() > 0){
+    if (txMouseButtons() > 0){
 
         double xCoord = txMouseX();
         double yCoord = txMouseY();
