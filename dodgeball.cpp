@@ -16,7 +16,7 @@ bool isCollidedTwoSpheres(int x1, int x2, int y1, int y2, int R){
 void moveSphere(double* currentX, double* currentY, double vx, double vy, double dt){
 
     *currentX += vx * dt;
-    *currentY += + vy * dt;
+    *currentY += vy * dt;
 }
 
 
