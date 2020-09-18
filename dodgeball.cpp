@@ -17,6 +17,7 @@ void Collision (double* vx2, double* vx3, double* vy2, double* vy3){
     }
 
 bool isCollidedTwoSpheres(int x1, int x2, int y1, int y2, int R){
+        
      if (((x1 - x2) * (x1 - x2) +  (y1 - y2) * (y1 - y2)) <= (4 * R * R)){
 
         return true;
