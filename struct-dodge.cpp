@@ -75,10 +75,10 @@ void controlSphere(Sphere *sphere){
 void checkCollision(Sphere *sphere){
 
     if (((*sphere).pos.var1 >= 800 - (*sphere).Radius) || ((*sphere).pos.var1 <= (*sphere).Radius)){
-            (*sphere).speed.var1 = -(*sphere).speed.var1;
+            (*sphere).speed.var1 = - (*sphere).speed.var1;
         }
     if (((*sphere).pos.var2 >= 600 - (*sphere).Radius) || ((*sphere).pos.var2 <= (*sphere).Radius)){
-            (*sphere).speed.var2 = -(*sphere).speed.var2;
+            (*sphere).speed.var2 = - (*sphere).speed.var2;
         }
 }
 
@@ -133,7 +133,7 @@ int main(){
         moveSphere(&sphereEnemy1, dt);
         moveSphere(&sphereEnemy2, dt);
 
-        distance += sqrt(pow(spherePlayer.pos.var1-previousX, 2) + pow(spherePlayer.pos.var2 - previousY, 2));
+        distance += sqrt(pow(spherePlayer.pos.var1 - previousX, 2) + pow(spherePlayer.pos.var2 - previousY, 2));
 
         checkCollision(&spherePlayer);
         checkCollision(&sphereEnemy1);
