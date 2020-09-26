@@ -3,154 +3,129 @@
 #include "cmath"
 
 struct Vector{
-
-    double var1;
-    double var2;
+    double x;
+    double y;
 };
-struct Sphere{
 
+struct Sphere{
     Vector pos;
     Vector speed;
     int red;
     int green;
     int blue;
-    int Radius;
-
+    int radius;
 };
 
-
-void Collision (Sphere *sphere1, Sphere *sphere2){
-
+void collide (Sphere *sphere1, Sphere *sphere2){
         //each mass is 1 unit
-        double v_centreX = ((*sphere1).speed.var1 + (*sphere2).speed.var1) / 2 ;
-        double v_centreY = ((*sphere1).speed.var2 + (*sphere2).speed.var2) / 2 ;
+        double v_centreX = (sphere1 -> speed.x + sphere2 -> speed.x) / 2 ;
+        double v_centreY = (sphere1 -> speed.y + sphere2 -> speed.y) / 2 ;
 
-        (*sphere1).speed.var1 = -(*sphere1).speed.var1 + 2 * v_centreX;
-        (*sphere2).speed.var1 = -(*sphere2).speed.var1 + 2 * v_centreX;
-        (*sphere1).speed.var2 = -(*sphere1).speed.var2 + 2 * v_centreY;
-        (*sphere2).speed.var2 = -(*sphere2).speed.var2 + 2 * v_centreY;
-    }
+        sphere1 -> speed.x = -sphere1 -> speed.x + 2 * v_centreX;
+        sphere2 -> speed.x = -sphere2 -> speed.x + 2 * v_centreX;
+        sphere1 -> speed.y = -sphere1 -> speed.y + 2 * v_centreY;
+        sphere2 -> speed.y = -sphere2 -> speed.y + 2 * v_centreY;
+}
 
 bool isCollidedTwoSpheres(Sphere sphere1, Sphere sphere2){
-     if ((pow((sphere1.pos.var1 - sphere2.pos.var1), 2) +  pow((sphere1.pos.var2 - sphere2.pos.var2), 2) <= (4 * pow(sphere1.Radius, 2)))){
-
-        return true;
-    }
-    return false;
+     return ((pow((sphere1.pos.x - sphere2.pos.x), 2) +  pow((sphere1.pos.y - sphere2.pos.y), 2) <= (4 * pow(sphere1.radius, 2))));
 }
-
-
+        
 void moveSphere(Sphere *sphere, double dt){
-
-    (*sphere).pos.var1 += (*sphere).speed.var1 * dt;
-    (*sphere).pos.var2 += (*sphere).speed.var2 * dt;
+    sphere -> pos.x += sphere -> speed.x * dt;
+    sphere -> pos.y += sphere -> speed.y * dt;
 }
-
 
 void controlSphere(Sphere *sphere){
-
-    if (txMouseButtons() > 0){
-
-        double xCoord = txMouseX();
-        double yCoord = txMouseY();
-
-        double xDifference = xCoord - (*sphere).pos.var1;
-        double yDifference = yCoord - (*sphere).pos.var2;
-        double distanceDifference = sqrt(pow(xDifference, 2) + pow(yDifference, 2));
-        double xDifferenceNormal = xDifference / distanceDifference;
-        double yDifferenceNormal =  yDifference / distanceDifference;
-
-        double speedModule = sqrt(pow((*sphere).speed.var1, 2) + pow((*sphere).speed.var2, 2));
-
-        double changedSpeedX = xDifferenceNormal * speedModule;
-        double changedSpeedY = yDifferenceNormal * speedModule;
-
-        (*sphere).speed.var1 = changedSpeedX;
-        (*sphere).speed.var2 = changedSpeedY;
-
+    if (txMouseButtons() <= 0){
+        return;
     }
+    double xCoord = txMouseX();
+    double yCoord = txMouseY();
+
+    double xDifference = xCoord - sphere -> pos.x;
+    double yDifference = yCoord - sphere -> pos.y;
+    double distanceDifference = sqrt(pow(xDifference, 2) + pow(yDifference, 2));
+    double xDifferenceNormal = xDifference / distanceDifference;
+    double yDifferenceNormal =  yDifference / distanceDifference;
+
+    double speedModule = sqrt(pow(sphere -> speed.x, 2) + pow(sphere -> speed.y, 2));
+
+    double changedSpeedX = xDifferenceNormal * speedModule;
+    double changedSpeedY = yDifferenceNormal * speedModule;
+
+    sphere -> speed.x = changedSpeedX;
+    sphere -> speed.y = changedSpeedY;
 }
 
-
-void checkCollision(Sphere *sphere){
-
-    if (((*sphere).pos.var1 >= 800 - (*sphere).Radius) || ((*sphere).pos.var1 <= (*sphere).Radius)){
-            (*sphere).speed.var1 = - (*sphere).speed.var1;
+void checkCollision(Sphere *sphere, int width, int length){
+    if ((sphere -> pos.x >= length - sphere -> radius) || (sphere -> pos.x <= sphere -> radius)){
+            sphere -> speed.x = - sphere -> speed.x;
         }
-    if (((*sphere).pos.var2 >= 600 - (*sphere).Radius) || ((*sphere).pos.var2 <= (*sphere).Radius)){
-            (*sphere).speed.var2 = - (*sphere).speed.var2;
+    if ((sphere -> pos.y >= width - sphere -> radius) || (sphere -> pos.y <= sphere -> radius)){
+            sphere -> speed.y = - sphere -> speed.y;
         }
 }
 
-void drawSphere(Sphere sphere, int N){
-
+void drawSphere(Sphere sphere, int detail){
     COLORREF color = txGetFillColor();
     COLORREF border = txGetColor();
-    for (auto i = 0; i < N; i++){
-        txSetFillColor(RGB(i * sphere.red / N, i * sphere.green / N, i * sphere.blue / N));
-        txSetColor(RGB(i * sphere.red / N, i * sphere.green / N, i * sphere.blue / N));
-        txCircle(sphere.pos.var1 + sphere.Radius * i/(2 * N), sphere.pos.var2 - sphere.Radius * i / (2 * N), sphere.Radius - sphere.Radius * i / N);
+    for (auto i = 0; i < detail; i++){
+        txSetFillColor(RGB(i * sphere.red / detail, i * sphere.green / detail, i * sphere.blue / detail));
+        txSetColor(RGB(i * sphere.red / detail, i * sphere.green / detail, i * sphere.blue / detail));
+        txCircle(sphere.pos.x + sphere.radius * i/(2 * detail), sphere.pos.y - sphere.radius * i / (2 * detail), sphere.radius - sphere.radius * i / detail);
         }
     txSetFillColor(color);
     txSetColor(border);
 }
 
 int main(){
-
-    int N = 50;
+    int detail = 50;
 
     Sphere spherePlayer = {{100, 100}, {10, 10}, 100, 0, 0, 50};
     Sphere sphereEnemy1 = {{500, 500}, {5, -10}, 0, 100, 0, 50};
     Sphere sphereEnemy2 = {{300, 100}, {20, 10}, 0, 0, 100, 50};
 
-    double previousX, previousY;
-
     double dt = 1;
-
     double distance = 0;
+    int length = 800;
+    int width = 600;
 
-
-    txCreateWindow(800, 600);
+    txCreateWindow(length, width);
     txSetFillColor(RGB(20, 20, 20));
 
-
-
-    while ((not isCollidedTwoSpheres(spherePlayer, sphereEnemy1)) && (not isCollidedTwoSpheres(spherePlayer, sphereEnemy2))){
-
+    while (true){
         txClear();
         txBegin();
-        drawSphere(spherePlayer, N);
-        drawSphere(sphereEnemy1, N);
-        drawSphere(sphereEnemy2, N);
+        drawSphere(spherePlayer, detail);
+        drawSphere(sphereEnemy1, detail);
+        drawSphere(sphereEnemy2, detail);
         txEnd();
 
         controlSphere(&spherePlayer);
 
-        previousX = spherePlayer.pos.var1;
-        previousY = spherePlayer.pos.var2;
+        double previousX = spherePlayer.pos.x;
+        double previousY = spherePlayer.pos.y;
 
         moveSphere(&spherePlayer, dt);
         moveSphere(&sphereEnemy1, dt);
         moveSphere(&sphereEnemy2, dt);
 
-        distance += sqrt(pow(spherePlayer.pos.var1 - previousX, 2) + pow(spherePlayer.pos.var2 - previousY, 2));
+        distance += sqrt(pow(spherePlayer.pos.x - previousX, 2) + pow(spherePlayer.pos.y - previousY, 2));
 
         checkCollision(&spherePlayer);
         checkCollision(&sphereEnemy1);
         checkCollision(&sphereEnemy2);
 
         if (isCollidedTwoSpheres(sphereEnemy1, sphereEnemy2)){
-
-            Collision(&sphereEnemy1, &sphereEnemy2);
-
-
+            collide(&sphereEnemy1, &sphereEnemy2);
+        }
+        if ((isCollidedTwoSpheres(spherePlayer, sphereEnemy1)) || (isCollidedTwoSpheres(spherePlayer, sphereEnemy2)){
+            break;
+        }
     }
-    }
-
     std::cout << "Your score is " << distance ;
-
     return 0;
-
 }
 
 
